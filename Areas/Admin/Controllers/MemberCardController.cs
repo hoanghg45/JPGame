@@ -98,6 +98,8 @@ namespace JPGame.Areas.Admin.Controllers
         // GET: Admin/MemberCard/Create
         public ActionResult Create()
         {
+             string ReaderID = Session["ReaderID"].ToString();
+            ViewBag.ReaderID = ReaderID;
             return View();
         }
 
@@ -110,25 +112,26 @@ namespace JPGame.Areas.Admin.Controllers
                 // TODO: Add insert logic here
                 var currUser = (Session["UserID"].ToString());
                 string CardID = collection["CardID"];
-                var MemberCardLevel = db.MemberCards.Find(collection["MemberCardLevelID"]);
+                string level = collection["MemberCardLevelID"];
+                var MemberCardLevel = db.CardLevels.Find(collection["MemberCardLevelID"]);
                 var card = db.MemberCards.Find(CardID);
                 if (card == null)
                 {
-                            return this.Json(
-                       new
-                       {
-                           status = "Error",
-                           message = "Thẻ không tồn tại, vui lòng kiểm tra lại!"
+                    return this.Json(
+               new
+               {
+                   status = "Error",
+                   message = "Thẻ không tồn tại, vui lòng kiểm tra lại!"
 
-                       }
-                       , JsonRequestBehavior.AllowGet
-                       );
+               }
+               , JsonRequestBehavior.AllowGet
+               );
                 }
-                if (!card.MemberCardLevel.CardLevel.ID.Trim().Equals("level1"))
+                if (!MemberCardLevel.ID.Trim().Equals("level1"))
                 {
                     string accname = collection["AccountName"];
                     var acc = db.Accounts.Where(a => a.AccountName.Trim().Equals(accname)).FirstOrDefault();
-                    if(string.IsNullOrEmpty(accname) || acc == null)
+                    if (string.IsNullOrEmpty(accname) || acc == null)
                     {
                         return this.Json(
                       new
@@ -143,13 +146,14 @@ namespace JPGame.Areas.Admin.Controllers
                     acc.MemberCardID = card.MemberCardID;
 
                 }
+
                 card.Balance = Double.Parse(collection["Money"].Replace(",", ""));
                 card.Points = Double.Parse(collection["Point"].Replace(",", ""));
                 card.Status = true;
                 var chargeRecord = new MemberCardChargeRecord
                 {
                     MemberCardID = card.MemberCardID,
-                    Money = card.Balance,
+                    Money = Double.Parse(collection["MoneyPay"].Replace(",", "")),
                     ChargeDate = DateTime.Now,
                     CreateBy = currUser,
                 };
@@ -165,7 +169,7 @@ namespace JPGame.Areas.Admin.Controllers
                  , JsonRequestBehavior.AllowGet
                  );
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return this.Json(
                  new
@@ -180,6 +184,8 @@ namespace JPGame.Areas.Admin.Controllers
         } 
         public ActionResult MoneyCharge()
         {
+            string ReaderID = Session["ReaderID"].ToString();
+            ViewBag.ReaderID = ReaderID;
             return View();
         }
 

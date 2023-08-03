@@ -46,7 +46,7 @@
                         <div class="wizard-nav border-bottom">
                             <div class="wizard-steps p-8 p-lg-10">
                                 <!--begin::Wizard Step 1 Nav-->
-                                <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
+                                <div class="wizard-step" data-wizard-type="step" data-step="1" data-wizard-state="current">
                                     <div class="wizard-label">
                                         <i class="wizard-icon flaticon-list"></i>
                                         <h3 class="wizard-title">1. Thông tin thẻ</h3>
@@ -65,7 +65,7 @@
                                 </div>
                                 <!--end::Wizard Step 1 Nav-->
                                 <!--begin::Wizard Step 2 Nav-->
-                                <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                <div class="wizard-step" data-wizard-type="step"  data-step="2" data-wizard-state="pending">
                                     <div class="wizard-label">
                                         <i class="wizard-icon flaticon-user-add"></i>
                                         <h3 class="wizard-title">2. Thông tin thành viên</h3>
@@ -86,7 +86,7 @@
 
                                 <!--end::Wizard Step 2 Nav-->
                                 <!--begin::Wizard Step 3 Nav-->
-                                <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
+                                <div class="wizard-step" data-wizard-type="step"  data-step="3" data-wizard-state="pending">
                                     <div class="wizard-label">
                                         <i class="wizard-icon flaticon-notepad"></i>
                                         <h3 class="wizard-title">3. Kiểm tra thông tin thẻ</h3>
@@ -105,7 +105,7 @@
                                 </div>
                                 <!--end::Wizard Step 3 Nav-->
                                 <!--begin::Wizard Step 4 Nav-->
-                                <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
+                                <div class="wizard-step" data-wizard-type="step"  data-step="4" data-wizard-state="pending">
                                     <div class="wizard-label">
                                         <i class="wizard-icon la la-credit-card"></i>
                                         <h3 class="wizard-title">4. Quét thẻ</h3>
@@ -125,6 +125,7 @@
                                     <!--begin::Wizard Step 1-->
                                     <div class="pb-5" data-wizard-type="step-content">
                                         <h4 class="mb-10 font-weight-bold text-dark">Thông tin thẻ</h4>
+                                        <input name="MemberCardLevelID" hidden />
                                         <!--begin::Input-->
                                         <div class="form-group fv-plugins-icon-container">
                                             <label>Số tiền nạp</label>
@@ -375,6 +376,13 @@
     <!--end::Entry-->
 </div>
 <!--end::Content-->
+<script type="text/javascript">
+    var ReaderID = null
+    if (@Html.Raw(Json.Encode(@ViewBag.ReaderID)) != null) {
+        ReaderID = @Html.Raw(Json.Encode(@ViewBag.ReaderID));
+        
+    }
+</script>
 <!--begin::Page Scripts(used by this page)-->
 <script src="~/Areas/assets/admin/membercard/CreateMemberCard.js"></script>
 <!--end::Page Scripts-->

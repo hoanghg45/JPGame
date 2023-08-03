@@ -357,12 +357,40 @@ var KTWizard1 = function () {
 
 jQuery(document).ready(function () {
 	KTWizard1.init();
+	var membercardHub = $.connection.membercardHub;
+	console.log(membercardHub)
+	membercardHub.client.notify = function (message) {
+
+
+
+		if (message && message.toLowerCase() == "cardscanned" && ReaderID != null) {
+			ScanTag()
+		}
+	}
+	$.connection.hub.start().done(function () {
+		console.log('Hub started');
+	});
+	/*signalr method for push server message to client*/
 	InitInputEvent()
 	initMasks()
 	InitLoadingButton()
 	
 });
 
+function ScanTag() {
+	///Lấy thông tin mỗi khi quét thẻ khi đang ở trang quét thẻ
+	let isInOldCardStep = $('[data-wizard-state="current"]').first().data('step') == 1
+	let isInNewCardStep = $('[data-wizard-state="current"]').first().data('step') == 4
+	if (isInOldCardStep) {
+		$('#CheckCurrCardBtn').trigger("click");
+	}
+	if (isInNewCardStep) {
+		$('#CheckChargeCurrCardBtn').trigger("click");
+    }
+	
+
+
+}
 
 function GetUser(UserName) {
 	$.ajax({

@@ -38,6 +38,9 @@
         <AssociationConnector Association="Model.FK_Promotion_Users" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_User_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Slider_TypeSlider" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.Cashier" Width="1.5" PointX="12.375" PointY="11.875" />
+        <EntityTypeShape EntityType="Model.NFCReader" Width="1.5" PointX="14.625" PointY="11.875" />
+        <AssociationConnector Association="Model.FK_NFCReaders_Cashiers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

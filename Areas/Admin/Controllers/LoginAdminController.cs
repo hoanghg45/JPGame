@@ -63,7 +63,7 @@ namespace JPGame.Areas.Admin.Controllers
             }
             Session["UserID"] = user.UserID;
             Session["Role"] = user.Role.Trim();
-
+            Session["ReaderID"] = "ef7f36c1fc1d31c7";
             return Json(
               new
               {

@@ -315,12 +315,36 @@ var KTWizard1 = function () {
 
 jQuery(document).ready(function () {
 	KTWizard1.init();
+
+
+	var membercardHub = $.connection.membercardHub;
+	console.log(membercardHub)
+	membercardHub.client.notify = function (message) {
+
+		
+
+		if (message && message.toLowerCase() == "cardscanned" && ReaderID != null) {
+			ScanTag()
+		}
+	}
+	$.connection.hub.start().done(function () {
+		console.log('Hub started');
+	});
+	/*signalr method for push server message to client*/
+	
 	InitInputEvent()
 	initMasks()
 	InitLoadingButton()
 });
 
-
+function ScanTag() {
+	///Lấy thông tin mỗi khi quét thẻ khi đang ở trang quét thẻ
+	let isScanStep = $('[data-wizard-state="current"]').first().data('step') == 4
+	if (isScanStep) {
+		$('#CheckCardBtn').trigger("click");
+    }
+	
+}
 function GetUser(UserName) {
 	$.ajax({
 		type: "GET",
@@ -362,7 +386,8 @@ function GetMemberCardLevel(LevelFee) {
 		datatype: 'json',
 		success: function (data) {
 			if (data.status == "Success") {
-				
+
+				$('input[name="MemberCardLevelID"]').val(data.data.CardLevelID)
 				$('input[name="LevelName"]').val(data.data.LevelName)
 				$('input[name="GiftLevelName"]').val(data.data.GiftLevelName)
 				$('input[name="RewardRate"]').val(data.data.RewardRate)
